@@ -15,13 +15,13 @@
       <div class="inputsContainer">
         <div class="box">
           <label for="where">Куда было потрачено:</label>
-          <input type="text" id="where" placeholder="Куда было потрачено">
+          <input type="text" id="where" onchange="onChangeInput()" placeholder="Куда было потрачено">
         </div>
         <div class="box2">
           <label for="howMany">Сколько было потрачено:</label>
-          <input type="number" id="howMany" placeholder="Сколько было потрачено">
+          <input type="number" id="howMany" onchange="onChangeInput()" placeholder="Сколько было потрачено">
         </div>
-        <button class="buttonAdd">Добавить</button>
+        <button class="buttonAdd" onclick="onClickAdd()">Добавить</button>
       </div>
       <p class="sum"></p>
       <div class="contentPage"></div>
