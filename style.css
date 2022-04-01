@@ -40,7 +40,7 @@ body {
 }
 
 .box input::placeholder,
-.box2 input::placeholder{
+.box2 input::placeholder {
   color: lightgray;
   font-size: 14px;
 }
@@ -51,4 +51,38 @@ body {
   border: none;
   border-radius: 5px;
   background: #79caab;
+  cursor: pointer;
+}
+
+.sum {
+  text-align: end;
+  width: 670px;
+  font-size: 1.4rem;
+}
+
+.contentBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 670px;
+}
+
+img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+p {
+  font-size: 1.4rem;
+}
+
+.nameCompany {
+  width: 250px;
+}
+
+.iconBox {
+  display: flex;
+  justify-content: space-between;
+  width: 60px;
 }
