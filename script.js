@@ -18,53 +18,53 @@ const render = () => {
     contentPage.removeChild(contentPage.firstChild);
   }
   const p = document.querySelector(".sum");
-  let sum = allFinances.reduce((sum, finance) => sum + finance.money, 0);
+  const sum = allFinances.reduce((sum, finance) => sum + finance.money, 0);
   p.textContent = allFinances.length ? `Итого: ${sum} р.` : "";
   allFinances.forEach((finance, idx) => {
-    const updateEl = {_id: finance._id};
-
+    const { nameCompany, date, money, _id, isEdit } = finance;
+    const updateEl = { _id };
     const contentBox = document.createElement("div");
     contentBox.className = "contentBox";
 
-    const nameCompany = document.createElement("p");
-    nameCompany.className = finance.isEdit ? "displayNone" : "nameCompany";
-    nameCompany.textContent = `${idx + 1}) ${finance.nameCompany}`;
-    contentBox.appendChild(nameCompany);
+    const nameValue = document.createElement("p");
+    nameValue.className = isEdit ? "displayNone" : "nameCompany";
+    nameValue.textContent = `${idx + 1}) ${nameCompany}`;
+    contentBox.appendChild(nameValue);
 
     const editInputName = document.createElement("input");
-    editInputName.className = finance.isEdit ? "editInputName" : "displayNone";
-    editInputName.value = finance.nameCompany;
-    updateEl.nameCompany = finance.nameCompany;
+    editInputName.className = isEdit ? "editInputName" : "displayNone";
+    editInputName.value = nameCompany;
+    updateEl.nameCompany = nameCompany;
     editInputName.addEventListener("change", (e) => {
       updateEl.nameCompany = e.target.value.trim();
     });
     contentBox.appendChild(editInputName);
 
-    const date = document.createElement("p");
-    date.className = finance.isEdit ? "displayNone" : "";
-    date.textContent = convertDate(finance.date);
-    contentBox.appendChild(date);
+    const dateValue = document.createElement("p");
+    dateValue.className = isEdit ? "displayNone" : "";
+    dateValue.textContent = convertDate(date);
+    contentBox.appendChild(dateValue);
 
     const editInputDate = document.createElement("input");
-    editInputDate.className = finance.isEdit ? "editInputDate" : "displayNone";
+    editInputDate.className = isEdit ? "editInputDate" : "displayNone";
     editInputDate.type = "date";
-    editInputDate.value = finance.date.slice(0, 10);
-    updateEl.date = finance.date.slice(0, 10);
+    editInputDate.value = date.slice(0, 10);
+    updateEl.date = date.slice(0, 10);
     editInputDate.addEventListener("change", (e) => {
       updateEl.date = e.target.value;
     });
     contentBox.appendChild(editInputDate);
 
-    const money = document.createElement("p");
-    money.className = finance.isEdit ? "displayNone" : "";
-    money.textContent = `${finance.money} p.`;
-    contentBox.appendChild(money);
+    const moneyValue = document.createElement("p");
+    moneyValue.className = isEdit ? "displayNone" : "";
+    moneyValue.textContent = `${money} p.`;
+    contentBox.appendChild(moneyValue);
 
     const editInputMoney = document.createElement("input");
-    editInputMoney.className = finance.isEdit ? "editInputMoney" : "displayNone";
+    editInputMoney.className = isEdit ? "editInputMoney" : "displayNone";
     editInputMoney.type = "number";
-    editInputMoney.value = finance.money;
-    updateEl.money = finance.money;
+    editInputMoney.value = money;
+    updateEl.money = money;
     editInputMoney.addEventListener("change", (e) => {
       updateEl.money = Number(e.target.value);
     });
@@ -74,19 +74,19 @@ const render = () => {
     iconBox.className = "iconBox";
     const editIcon = document.createElement("img");
     editIcon.src = "image/pen.svg";
-    editIcon.className = finance.isEdit ? "displayNone" : "";
+    editIcon.className = isEdit ? "displayNone" : "";
     editIcon.addEventListener("click", () => onClickEdit(idx));
     iconBox.appendChild(editIcon);
 
     const doneIcon = document.createElement("img");
     doneIcon.src = "image/check.svg";
-    doneIcon.className = finance.isEdit ? "" : "displayNone";
+    doneIcon.className = isEdit ? "" : "displayNone";
     doneIcon.addEventListener("click", () => onClickSaveEl(updateEl, idx));
     iconBox.appendChild(doneIcon);
 
     const deleteIcon = document.createElement("img");
     deleteIcon.src = "image/trash.svg";
-    deleteIcon.addEventListener("click", () => finance.isEdit ? onClickClose(idx) : onClickDelete(idx));
+    deleteIcon.addEventListener("click", () => isEdit ? onClickClose(idx) : onClickDelete(idx));
     iconBox.appendChild(deleteIcon);
 
     contentBox.appendChild(iconBox);
