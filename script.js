@@ -17,55 +17,54 @@ const render = () => {
   while (contentPage.firstChild) {
     contentPage.removeChild(contentPage.firstChild);
   }
-  let sum = 0;
   const p = document.querySelector(".sum");
-  allFinances.forEach((el, idx) => {
-    sum += Number(el.money);
-    const updateEl = {};
-    updateEl._id = el._id;
+  let sum = allFinances.reduce((sum, finance) => sum + finance.money, 0);
+  p.textContent = allFinances.length ? `Итого: ${sum} р.` : "";
+  allFinances.forEach((finance, idx) => {
+    const updateEl = {_id: finance._id};
 
     const contentBox = document.createElement("div");
     contentBox.className = "contentBox";
 
     const nameCompany = document.createElement("p");
-    nameCompany.className = el.isEdit ? "displayNone" : "nameCompany";
-    nameCompany.textContent = `${idx + 1}) ${el.nameCompany}`;
+    nameCompany.className = finance.isEdit ? "displayNone" : "nameCompany";
+    nameCompany.textContent = `${idx + 1}) ${finance.nameCompany}`;
     contentBox.appendChild(nameCompany);
 
     const editInputName = document.createElement("input");
-    editInputName.className = el.isEdit ? "editInputName" : "displayNone";
-    editInputName.value = el.nameCompany;
-    updateEl.nameCompany = el.nameCompany;
+    editInputName.className = finance.isEdit ? "editInputName" : "displayNone";
+    editInputName.value = finance.nameCompany;
+    updateEl.nameCompany = finance.nameCompany;
     editInputName.addEventListener("change", (e) => {
       updateEl.nameCompany = e.target.value.trim();
     });
     contentBox.appendChild(editInputName);
 
     const date = document.createElement("p");
-    date.className = el.isEdit ? "displayNone" : "";
-    date.textContent = convertDate(el.date);
+    date.className = finance.isEdit ? "displayNone" : "";
+    date.textContent = convertDate(finance.date);
     contentBox.appendChild(date);
 
     const editInputDate = document.createElement("input");
-    editInputDate.className = el.isEdit ? "editInputDate" : "displayNone";
+    editInputDate.className = finance.isEdit ? "editInputDate" : "displayNone";
     editInputDate.type = "date";
-    editInputDate.value = el.date.slice(0, 10);
-    updateEl.date = el.date.slice(0, 10);
+    editInputDate.value = finance.date.slice(0, 10);
+    updateEl.date = finance.date.slice(0, 10);
     editInputDate.addEventListener("change", (e) => {
       updateEl.date = e.target.value;
     });
     contentBox.appendChild(editInputDate);
 
     const money = document.createElement("p");
-    money.className = el.isEdit ? "displayNone" : "";
-    money.textContent = `${el.money} p.`;
+    money.className = finance.isEdit ? "displayNone" : "";
+    money.textContent = `${finance.money} p.`;
     contentBox.appendChild(money);
 
     const editInputMoney = document.createElement("input");
-    editInputMoney.className = el.isEdit ? "editInputMoney" : "displayNone";
+    editInputMoney.className = finance.isEdit ? "editInputMoney" : "displayNone";
     editInputMoney.type = "number";
-    editInputMoney.value = el.money;
-    updateEl.money = el.money;
+    editInputMoney.value = finance.money;
+    updateEl.money = finance.money;
     editInputMoney.addEventListener("change", (e) => {
       updateEl.money = Number(e.target.value);
     });
@@ -75,26 +74,24 @@ const render = () => {
     iconBox.className = "iconBox";
     const editIcon = document.createElement("img");
     editIcon.src = "image/pen.svg";
-    editIcon.className = el.isEdit ? "displayNone" : "";
+    editIcon.className = finance.isEdit ? "displayNone" : "";
     editIcon.addEventListener("click", () => onClickEdit(idx));
     iconBox.appendChild(editIcon);
 
     const doneIcon = document.createElement("img");
     doneIcon.src = "image/check.svg";
-    doneIcon.className = el.isEdit ? "" : "displayNone";
+    doneIcon.className = finance.isEdit ? "" : "displayNone";
     doneIcon.addEventListener("click", () => onClickSaveEl(updateEl, idx));
     iconBox.appendChild(doneIcon);
 
     const deleteIcon = document.createElement("img");
     deleteIcon.src = "image/trash.svg";
-    el.isEdit ? deleteIcon.addEventListener("click", () => onClickClose(idx)) :
-      deleteIcon.addEventListener("click", () => onClickDelete(idx));
+    deleteIcon.addEventListener("click", () => finance.isEdit ? onClickClose(idx) : onClickDelete(idx));
     iconBox.appendChild(deleteIcon);
 
     contentBox.appendChild(iconBox);
     contentPage.appendChild(contentBox);
   });
-  allFinances.length ? p.textContent = `Итого: ${sum} р.` : p.textContent = "";
 };
 
 const convertDate = (date) => {
