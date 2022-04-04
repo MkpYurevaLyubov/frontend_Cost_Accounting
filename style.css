@@ -1,5 +1,8 @@
 html,
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
   height: 100%;
   background: #e2f3ff;
@@ -10,13 +13,14 @@ body {
   flex-direction: column;
   align-items: center;
   height: auto;
+  width: 42rem;
 }
 
 .inputsContainer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  width: 670px;
+  width: 100%;
 }
 
 .box,
@@ -31,12 +35,8 @@ body {
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid lightgray;
-  font-size: 16px;
-  width: 250px;
-}
-
-.box2 input {
-  width: 180px;
+  font-size: 1rem;
+  width: 100%;
 }
 
 .box input::placeholder,
@@ -47,7 +47,7 @@ body {
 
 .buttonAdd {
   padding: 12px 25px;
-  font-size: 14px;
+  font-size: 0.9rem;
   border: none;
   border-radius: 5px;
   background: #79caab;
@@ -56,15 +56,20 @@ body {
 
 .sum {
   text-align: end;
-  width: 670px;
+  width: 100%;
   font-size: 1.4rem;
+}
+
+.contentPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .contentBox {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 670px;
 }
 
 img {
@@ -78,13 +83,20 @@ p {
 }
 
 .nameCompany {
-  width: 250px;
+  overflow-wrap: anywhere;
+  width: 39%;
+}
+
+.block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
 }
 
 .iconBox {
   display: flex;
   justify-content: space-between;
-  width: 60px;
 }
 
 .displayNone {
@@ -98,7 +110,7 @@ p {
   margin: 15px 0;
   border-radius: 5px;
   border: 1px solid lightgray;
-  font-size: 16px;
+  font-size: 1rem;
   width: 14rem;
 }
 
@@ -109,4 +121,55 @@ p {
 
 .editInputMoney {
   width: 6rem;
+}
+
+@media (max-width: 700px) {
+  .main {
+    width: 75%;
+  }
+
+  .inputsContainer {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .box,
+  .buttonAdd {
+    width: 100%;
+  }
+
+  .box2 {
+    margin: 15px 0;
+    width: 100%;
+  }
+
+  .box input,
+  .box2 input {
+    width: auto;
+  }
+
+  .contentBox {
+    margin-bottom: 40px;
+  }
+
+  .block {
+    flex-direction: column;
+    align-items: flex-end;
+    width: 37%;
+  }
+
+  .block p {
+    margin: 0 0 10px;
+  }
+
+  .editInputName {
+    width: 40%;
+    margin: 0;
+  }
+
+  .editInputDate,
+  .editInputMoney {
+    width: 100%;
+    margin: 5px 0;
+  }
 }

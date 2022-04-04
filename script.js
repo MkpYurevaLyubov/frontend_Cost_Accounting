@@ -1,7 +1,8 @@
 let allFinances = [];
-let newObj = {};
+const newObj = {};
 let inputName = null;
 let inputMoney = null;
+let isEdit = false;
 
 window.onload = async () => {
   const res = await fetch("http://localhost:8000/allFinance", {
@@ -40,10 +41,13 @@ const render = () => {
     });
     contentBox.appendChild(editInputName);
 
+    const block = document. createElement("div");
+    block.className = "block";
+
     const dateValue = document.createElement("p");
     dateValue.className = isEdit ? "displayNone" : "";
     dateValue.textContent = convertDate(date);
-    contentBox.appendChild(dateValue);
+    block.appendChild(dateValue);
 
     const editInputDate = document.createElement("input");
     editInputDate.className = isEdit ? "editInputDate" : "displayNone";
@@ -53,12 +57,12 @@ const render = () => {
     editInputDate.addEventListener("change", (e) => {
       updateEl.date = e.target.value;
     });
-    contentBox.appendChild(editInputDate);
+    block.appendChild(editInputDate);
 
     const moneyValue = document.createElement("p");
     moneyValue.className = isEdit ? "displayNone" : "";
     moneyValue.textContent = `${money} p.`;
-    contentBox.appendChild(moneyValue);
+    block.appendChild(moneyValue);
 
     const editInputMoney = document.createElement("input");
     editInputMoney.className = isEdit ? "editInputMoney" : "displayNone";
@@ -68,7 +72,7 @@ const render = () => {
     editInputMoney.addEventListener("change", (e) => {
       updateEl.money = Number(e.target.value);
     });
-    contentBox.appendChild(editInputMoney);
+    block.appendChild(editInputMoney);
 
     const iconBox = document.createElement("div");
     iconBox.className = "iconBox";
@@ -86,10 +90,18 @@ const render = () => {
 
     const deleteIcon = document.createElement("img");
     deleteIcon.src = "image/trash.svg";
-    deleteIcon.addEventListener("click", () => isEdit ? onClickClose(idx) : onClickDelete(idx));
+    deleteIcon.className = isEdit ? "displayNone" : "";
+    deleteIcon.addEventListener("click", () => onClickDelete(idx));
     iconBox.appendChild(deleteIcon);
 
-    contentBox.appendChild(iconBox);
+    const closeIcon = document.createElement("img");
+    closeIcon.src = "image/close.svg";
+    closeIcon.className = isEdit ? "" : "displayNone";
+    closeIcon.addEventListener("click", () => onClickClose(idx));
+    iconBox.appendChild(closeIcon);
+
+    block.appendChild(iconBox);
+    contentBox.appendChild(block);
     contentPage.appendChild(contentBox);
   });
 };
@@ -134,11 +146,14 @@ const onClickDelete = async (index) => {
 };
 
 const onClickEdit = (index) => {
+  if (isEdit) return alert("Close open inputs");
+  isEdit = true;
   allFinances[index].isEdit = true;
   render();
 };
 
 const onClickClose = (index) => {
+  isEdit = false;
   delete allFinances[index].isEdit;
   render();
 };
