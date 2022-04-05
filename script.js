@@ -142,6 +142,7 @@ const onChangeInput = () => {
 const onClickAdd = async () => {
   if (!newObj.nameCompany) return alert("Enter value name");
   if (!newObj.money) return alert("Enter value money");
+  isEditValue = false;
   const resp = await fetch("http://localhost:8000/createFinance", {
     method: "POST",
     headers: {
@@ -160,6 +161,7 @@ const onClickAdd = async () => {
 const onClickDelete = async (index) => {
   const answer = confirm("Are you sure?");
   if (!answer) return;
+  isEditValue = false;
   await fetch(`http://localhost:8000/deleteFinance?id=${allFinances[index]._id}`, {
     method: "DELETE",
   });
@@ -169,6 +171,7 @@ const onClickDelete = async (index) => {
 
 const onClickEdit = (index) => {
   if (isEdit) return alert("Close open inputs");
+  isEditValue = true;
   isEdit = true;
   allFinances[index].isEdit = true;
   render();
