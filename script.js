@@ -3,6 +3,7 @@ const newObj = {};
 let inputName = null;
 let inputMoney = null;
 let isEdit = false;
+let isEditValue = false;
 
 window.onload = async () => {
   const res = await fetch("http://localhost:8000/allFinance", {
@@ -30,6 +31,12 @@ const render = () => {
     const nameValue = document.createElement("p");
     nameValue.className = isEdit ? "displayNone" : "nameCompany";
     nameValue.textContent = `${idx + 1}) ${nameCompany}`;
+    nameValue.addEventListener("dblclick", () => {
+      if (isEditValue) return;
+      isEditValue = true;
+      nameValue.classList.add("displayNone");
+      editInputName.className = "editInputName";
+    });
     contentBox.appendChild(nameValue);
 
     const editInputName = document.createElement("input");
@@ -39,6 +46,7 @@ const render = () => {
     editInputName.addEventListener("change", (e) => {
       updateEl.nameCompany = e.target.value.trim();
     });
+    if (!isEdit) editInputName.addEventListener("blur", () => onClickSaveEl(updateEl, idx));
     contentBox.appendChild(editInputName);
 
     const block = document. createElement("div");
@@ -47,6 +55,12 @@ const render = () => {
     const dateValue = document.createElement("p");
     dateValue.className = isEdit ? "displayNone" : "";
     dateValue.textContent = convertDate(date);
+    dateValue.addEventListener("dblclick", () => {
+      if (isEditValue) return;
+      isEditValue = true;
+      dateValue.classList.add("displayNone");
+      editInputDate.className = "editInputDate";
+    });
     block.appendChild(dateValue);
 
     const editInputDate = document.createElement("input");
@@ -57,11 +71,18 @@ const render = () => {
     editInputDate.addEventListener("change", (e) => {
       updateEl.date = e.target.value;
     });
+    if (!isEdit) editInputDate.addEventListener("blur", () => onClickSaveEl(updateEl, idx));
     block.appendChild(editInputDate);
 
     const moneyValue = document.createElement("p");
     moneyValue.className = isEdit ? "displayNone" : "";
     moneyValue.textContent = `${money} p.`;
+    moneyValue.addEventListener("dblclick", () => {
+      if (isEditValue) return;
+      isEditValue = true;
+      moneyValue.classList.add("displayNone");
+      editInputMoney.className = "editInputMoney";
+    });
     block.appendChild(moneyValue);
 
     const editInputMoney = document.createElement("input");
@@ -72,6 +93,7 @@ const render = () => {
     editInputMoney.addEventListener("change", (e) => {
       updateEl.money = Number(e.target.value);
     });
+    if (!isEdit) editInputMoney.addEventListener("blur", () => onClickSaveEl(updateEl, idx));
     block.appendChild(editInputMoney);
 
     const iconBox = document.createElement("div");
@@ -153,12 +175,15 @@ const onClickEdit = (index) => {
 };
 
 const onClickClose = (index) => {
+  isEditValue = false;
   isEdit = false;
   delete allFinances[index].isEdit;
   render();
 };
 
 const onClickSaveEl = async (el, idx) => {
+  isEditValue = false;
+  isEdit = false;
   for (let key in el) {
     if (!el[key]) return alert(`Enter ${key}`);
   }
