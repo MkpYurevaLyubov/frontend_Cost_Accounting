@@ -95,6 +95,10 @@ p {
   width: 60%;
 }
 
+.dateValue {
+  width: 43%;
+}
+
 .iconBox {
   display: flex;
   justify-content: space-between;
@@ -135,7 +139,8 @@ p {
   }
 
   .box,
-  .buttonAdd {
+  .buttonAdd,
+  .dateValue {
     width: 100%;
   }
 
