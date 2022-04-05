@@ -53,7 +53,7 @@ const render = () => {
     block.className = "block";
 
     const dateValue = document.createElement("p");
-    dateValue.className = isEdit ? "displayNone" : "";
+    dateValue.className = isEdit ? "displayNone" : "dateValue";
     dateValue.textContent = convertDate(date);
     dateValue.addEventListener("dblclick", () => {
       if (isEditValue) return;
